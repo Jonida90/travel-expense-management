@@ -1,0 +1,56 @@
+<h2>Approver Trips</h2>
+
+<table mat-table [dataSource]="trips" class="mat-elevation-z8">
+  
+  <!-- Trip Name Column -->
+  <ng-container matColumnDef="tripName">
+    <th mat-header-cell *matHeaderCellDef> Trip Name </th>
+    <td mat-cell *matCellDef="let trip" (click)="openTripStepper(trip)"> > {{ trip.tripName }} </td>
+  </ng-container>
+  
+  <!-- Trip Duration Column -->
+  <ng-container matColumnDef="tripDuration">
+    <th mat-header-cell *matHeaderCellDef> Duration </th>
+    <td mat-cell *matCellDef="let trip"> {{ trip.tripDuration }} </td>
+  </ng-container>
+  
+  <!-- Start Date Column -->
+  <ng-container matColumnDef="tripStartDate">
+    <th mat-header-cell *matHeaderCellDef> Start Date </th>
+    <td mat-cell *matCellDef="let trip"> {{ trip.tripStartDate | date:'shortDate' }} </td>
+  </ng-container>
+  
+  <!-- End Date Column -->
+  <ng-container matColumnDef="tripEndDate">
+    <th mat-header-cell *matHeaderCellDef> End Date </th>
+    <td mat-cell *matCellDef="let trip"> {{ trip.tripEndDate | date:'shortDate' }} </td>
+  </ng-container>
+  
+  <!-- Car Name Column -->
+  <ng-container matColumnDef="carName">
+    <th mat-header-cell *matHeaderCellDef> Car </th>
+    <td mat-cell *matCellDef="let trip"> {{ trip.carName }} </td>
+  </ng-container>
+  
+  <!-- Hotel Name Column -->
+  <ng-container matColumnDef="hotelName">
+    <th mat-header-cell *matHeaderCellDef> Hotel </th>
+    <td mat-cell *matCellDef="let trip"> {{ trip.hotelName }} </td>
+  </ng-container>
+  
+  <!-- Airline Column -->
+  <ng-container matColumnDef="flightAirline">
+    <th mat-header-cell *matHeaderCellDef> Airline </th>
+    <td mat-cell *matCellDef="let trip"> {{ trip.flightAirline }} </td>
+  </ng-container>
+  
+  <!-- Total Price Column -->
+  <ng-container matColumnDef="totalPrice">
+    <th mat-header-cell *matHeaderCellDef> Total Price </th>
+    <td mat-cell *matCellDef="let trip"> {{ trip.totalPrice | currency }} </td>
+  </ng-container>
+
+  <!-- Header and Row Definitions -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
