@@ -1,0 +1,112 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "role": "END_USER"
+      },
+      {
+        "id": 2,
+        "name": "Jane Smith",
+        "role": "APPROVER"
+      },
+      {
+        "id": 3,
+        "name": "Mark Johnson",
+        "role": "FINANCE"
+      }
+    ],
+    "trips": [
+      {
+        "id": 1,
+        "name": "Business Conference",
+        "duration": 5,
+        "startDate": "2025-01-25",
+        "endDate": "2025-01-30",
+        "userId": 1,
+        "status": "Pending Approval",
+        "expenses": [
+          {
+            "id": 1,
+            "type": "Car Rental",
+            "details": {
+              "carName": "Toyota Corolla",
+              "pickUpDateTime": "2025-01-25T10:00:00",
+              "dropOffDateTime": "2025-01-30T15:00:00",
+              "pickUpLocation": "Airport",
+              "dropOffLocation": "Hotel",
+              "totalPrice": 250
+            }
+          },
+          {
+            "id": 2,
+            "type": "Hotel",
+            "details": {
+              "hotelName": "Grand Hotel",
+              "location": "City Center",
+              "checkInDate": "2025-01-25",
+              "checkOutDate": "2025-01-30",
+              "totalPrice": 700
+            }
+          },
+          {
+            "id": 3,
+            "type": "Flight",
+            "details": {
+              "airline": "Delta Airlines",
+              "from": "New York",
+              "to": "Los Angeles",
+              "departureDateTime": "2025-01-25T08:00:00",
+              "arrivalDateTime": "2025-01-25T11:00:00",
+              "totalPrice": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Client Meeting",
+        "duration": 3,
+        "startDate": "2025-02-05",
+        "endDate": "2025-02-08",
+        "userId": 1,
+        "status": "Approved",
+        "expenses": [
+          {
+            "id": 1,
+            "type": "Taxi",
+            "details": {
+              "from": "Office",
+              "to": "Airport",
+              "timeDate": "2025-02-05T07:30:00",
+              "totalPrice": 40
+            }
+          }
+        ]
+      }
+    ],
+    "notes": [
+      {
+        "id": 1,
+        "tripId": 1,
+        "approverId": 2,
+        "content": "Please confirm hotel details."
+      }
+    ],
+    "approvals": [
+      {
+        "id": 1,
+        "tripId": 1,
+        "approverId": 2,
+        "status": "Approved"
+      }
+    ],
+    "financeActions": [
+      {
+        "id": 1,
+        "tripId": 2,
+        "status": "Refunded"
+      }
+    ]
+  }
+  

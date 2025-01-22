@@ -1,0 +1,81 @@
+<table mat-table [dataSource]="trips" class="custom-trip-table">
+    <!-- Trip Name Column -->
+    <ng-container matColumnDef="tripName">
+      <th mat-header-cell *matHeaderCellDef> Trip Name </th>
+      <td mat-cell *matCellDef="let trip"> {{trip.tripName}} </td>
+    </ng-container>
+  
+    <!-- Trip Duration Column -->
+    <ng-container matColumnDef="tripDuration">
+      <th mat-header-cell *matHeaderCellDef> Trip Duration </th>
+      <td mat-cell *matCellDef="let trip"> {{trip.tripDuration}} </td>
+    </ng-container>
+  
+    <!-- Trip Start Date Column -->
+    <ng-container matColumnDef="tripStartDate">
+      <th mat-header-cell *matHeaderCellDef> Start Date </th>
+      <td mat-cell *matCellDef="let trip"> {{trip.tripStartDate | date}} </td>
+    </ng-container>
+  
+    <!-- Trip End Date Column -->
+    <ng-container matColumnDef="tripEndDate">
+      <th mat-header-cell *matHeaderCellDef> End Date </th>
+      <td mat-cell *matCellDef="let trip"> {{trip.tripEndDate | date}} </td>
+    </ng-container>
+  
+    <!-- Car Name Column -->
+    <ng-container matColumnDef="carName">
+      <th mat-header-cell *matHeaderCellDef> Car Name </th>
+      <td mat-cell *matCellDef="let trip"> {{trip.carName}} </td>
+    </ng-container>
+  
+    <!-- Hotel Name Column -->
+    <ng-container matColumnDef="hotelName">
+      <th mat-header-cell *matHeaderCellDef> Hotel Name </th>
+      <td mat-cell *matCellDef="let trip"> {{trip.hotelName}} </td>
+    </ng-container>
+  
+    <!-- Flight Airline Column -->
+    <ng-container matColumnDef="flightAirline">
+      <th mat-header-cell *matHeaderCellDef> Flight Airline </th>
+      <td mat-cell *matCellDef="let trip"> {{trip.flightAirline}} </td>
+    </ng-container>
+  
+    <!-- Total Price Column -->
+    <ng-container matColumnDef="totalPrice">
+      <th mat-header-cell *matHeaderCellDef> Total Price </th>
+      <td mat-cell *matCellDef="let trip"> {{trip.totalPrice}} </td>
+    </ng-container>
+  
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let trip"> {{trip.status}} </td>
+    </ng-container>
+  
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let trip" class="action-icons">
+        <mat-icon
+          *ngIf="trip.status === 'Approved'"
+          class="action-icon"
+          matTooltip="Mark as Refunded"
+          (click)="markAsRefunded(trip)"
+          >reply</mat-icon
+        >
+        <mat-icon
+          *ngIf="trip.status === 'Approved'"
+          class="action-icon"
+          matTooltip="Mark as In Process"
+          (click)="markAsInProcess(trip)"
+          >hourglass_empty</mat-icon
+        >
+      </td>
+    </ng-container>
+  
+    <!-- Table Header and Row -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  

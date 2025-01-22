@@ -5,7 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { TripComponent } from './components/trip/trip.component';
-import { TripListComponent } from './components/approver/trip-list.component';
+import { ApproverTripListComponent } from './components/approver/approver-trip-list.component';
+import { FinanceTripListComponent } from './components/finance/finance-trip-list.component';
+import { HeaderComponent } from './components/header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -19,6 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -26,7 +29,9 @@ import { MatTableModule } from '@angular/material/table';
     AppComponent,
     LoginComponent,
     TripComponent,
-    TripListComponent
+    ApproverTripListComponent,
+    FinanceTripListComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +47,8 @@ import { MatTableModule } from '@angular/material/table';
     MatNativeDateModule,
     MatIconModule,
     MatDialogModule,  
-    MatTableModule 
+    MatTableModule,
+    MatToolbarModule
     
   ],
   providers: [],

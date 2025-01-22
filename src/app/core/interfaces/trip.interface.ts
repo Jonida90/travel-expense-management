@@ -7,6 +7,7 @@ export interface ITrip {
   startDate: Date;
   endDate: Date;
   expenses: IExpense[];
+  status1: 'Approved' | 'Refunded' | 'In Process';
   status: 'PENDING' | 'APPROVED' | 'CANCELLED' | 'REFUNDED' | 'IN_PROCESS';
   approverNotes?: string;
 }

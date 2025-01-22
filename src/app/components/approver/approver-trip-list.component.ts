@@ -14,11 +14,11 @@ export interface Trip {
 }
 
 @Component({
-  selector: 'trip-list',
-  templateUrl: './trip-list.component.html',
-  styleUrls: ['./trip-list.component.css']
+  selector: 'approver-trip-list',
+  templateUrl: './approver-trip-list.component.html',
+  styleUrls: ['./approver-trip-list.component.css']
 })
-export class TripListComponent implements OnInit {
+export class ApproverTripListComponent implements OnInit {
   displayedColumns: string[] = ['tripName', 'tripDuration', 'tripStartDate', 'tripEndDate', 'carName', 'hotelName', 'flightAirline', 'totalPrice'];
   trips: Trip[] = [
     {

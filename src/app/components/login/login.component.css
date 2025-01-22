@@ -2,10 +2,35 @@
   max-width: 400px;
   margin: 50px auto;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.header .icon {
+  font-size: 40px;
+  margin-right: 10px;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: 500;
 }
 
 .full-width {
   width: 100%;
   margin-bottom: 20px;
+}
+
+button {
+  border-radius: 20px;
+  font-weight: 600;
 }

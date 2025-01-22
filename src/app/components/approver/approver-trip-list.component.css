@@ -1,0 +1,79 @@
+/* Container for the trip list */
+.trip-list-container {
+    margin: 30px auto;
+    padding: 20px;
+    /* background-color: #faf3e0;  Soft beige */
+    border-radius: 8px;
+    max-width: 1100px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Table title */
+  .table-title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    /* color: #e57373; Soft peach color */
+    font-family: 'Montserrat !important';
+  }
+  
+  /* Styling for the mat-table */
+  .mat-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Header and Cells */
+  .mat-header-cell, .mat-cell {
+    padding: 12px 15px;
+    text-align: center;
+    font-size: 16px;
+    color: #555;
+    font-family: 'Montserrat !important';
+  }
+  
+  .mat-header-cell {
+    /* background-color: #ffe0b2; Light peach background */
+    /* color: #d32f2f;  Dark red for headers */
+    font-weight: bold;
+  }
+  
+  .mat-row {
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .mat-row:hover {
+    background-color: #fff3e0;  /* Light peach background on hover */
+  }
+  
+  /* Action button styling */
+  button {
+    background-color: #ff7043; /* Warm orange */
+    color: white;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+  }
+  
+  .mat-elevation-z8 {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Responsive Table */
+  @media (max-width: 768px) {
+    .mat-header-cell, .mat-cell {
+      padding: 10px 8px;
+      font-size: 14px;
+    }
+  
+    .table-title {
+      font-size: 22px;
+    }
+  }
+  

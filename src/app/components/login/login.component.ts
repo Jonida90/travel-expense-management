@@ -19,10 +19,17 @@ export class LoginComponent {
 
   onSubmit() {
     const { username, password } = this.loginForm.value;
-    if (this.authService.login(username, password)) {
-      // Redirect based on role
-    } else {
-      alert('Invalid credentials');
-    }
+
+    this.authService.login(username);
+// if (userRole === 'admin') {
+//   this.router.navigate(['/admin-dashboard']);
+// } else if (userRole === 'user') {
+//   this.router.navigate(['/user-dashboard']);
+// }
+//     if (this.authService.login(username, password)) {
+//       // Redirect based on role
+//     } else {
+//       alert('Invalid credentials');
+//     }
   }
 }
