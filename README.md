@@ -1,27 +1,62 @@
-# TravelExpenseManagement
+# Front-End Angular Application with Angular Material
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.8.
+This is a front-end application built using Angular and Angular Material. It simulates an expense management system with mock data served by JSON Server. 
 
-## Development server
+## Features
+- User login functionality with mock users.
+- A responsive UI with Angular Material components.
+- Mock data served via a local JSON Server.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Setting Up the Project
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. **Clone the Repository**
+   First, clone this repository to your local machine.
 
-## Build
+   ```bash
+   git clone https://github.com/Jonida90/travel-expense-management.git
+   cd your-project
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+3. **Setting Up the JSON Server**
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+   1. **Install JSON Server Globally**
 
-## Running end-to-end tests
+      Run the following command:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+      ```bash
+      npm install -g json-server
+      ```
 
-## Further help
+   2. **Created a `db.json` File**
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+      I have create a file called `db.json`. This file will hold the mock data that the JSON Server will serve. Have used below users for as already users registered of the system.
+
+      ```json
+      
+      {
+        "users": [
+          { "id": 1, "username": "enduser", "password": "u1234", "role": "END_USER" },
+          { "id": 2, "username": "userapprover", "password": "u1234", "role": "APPROVER" },
+          { "id": 3, "username": "userfinance", "password": "u1234", "role": "FINANCE" },
+          { "id": 4, "username": "enduser1", "password": "u1234", "role": "END_USER" },
+          { "id": 5, "username": "enduser2", "password": "u1234", "role": "END_USER" }
+        ]
+      }
+      ```
+
+      This example contains some mock users with usernames and passwords.
+
+   3. **Start the JSON Server**
+
+     You need to start the JSON Server to serve the data from `db.json`. 
+
+      ```bash
+      json-server --watch db.json --port 3000
+      ```
+
+      This command will start the JSON Server and watch the `db.json` file for any changes. The server will be available at `http://localhost:3000`.
+
+
+
+
