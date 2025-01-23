@@ -88,7 +88,7 @@
       "startDate": "2025-02-05",
       "endDate": "2025-02-08",
       "userCreatorId": 1,
-      "status": "APPROVED",
+      "status": "REFUNDED",
       "approverId": 2,
       "financeId": 3,
       "notes": "Note added again",
@@ -170,7 +170,7 @@
       "startDate": "2025-01-20T22:00:00.000Z",
       "endDate": "2025-01-23T22:00:00.000Z",
       "userCreatorId": 1,
-      "status": "PENDING",
+      "status": "APPROVED",
       "expenses": [
         {
           "id": 1,
@@ -217,7 +217,8 @@
             "totalPrice": 34
           }
         }
-      ]
+      ],
+      "approverId": 2
     },
     {
       "id": 5,
@@ -339,7 +340,7 @@
       "startDate": "2025-01-27T22:00:00.000Z",
       "endDate": "2025-01-30T22:00:00.000Z",
       "userCreatorId": 1,
-      "status": "PENDING",
+      "status": "APPROVED",
       "expenses": [
         {
           "id": 1,
@@ -384,6 +385,181 @@
             "toLocation": "Miami - Ocean Drive",
             "dateTime": "2025-01-28T22:00:00.000Z",
             "totalPrice": 30
+          }
+        }
+      ],
+      "notes": "US trip note",
+      "approverId": 2
+    },
+    {
+      "id": 8,
+      "name": "Mexico ",
+      "duration": "4",
+      "startDate": "2025-01-27T22:00:00.000Z",
+      "endDate": "2025-01-29T22:00:00.000Z",
+      "userCreatorId": 1,
+      "status": "APPROVED",
+      "expenses": [
+        {
+          "id": 1,
+          "type": "CAR_RENTAL",
+          "details": {
+            "carName": "Honda Civic",
+            "pickUpDateTime": "2025-01-21T22:00:00.000Z",
+            "dropOffDateTime": "2025-01-29T22:00:00.000Z",
+            "pickUpLocation": "Miami International Airport",
+            "dropOffLocation": "New York City - JFK",
+            "totalPrice": 200
+          }
+        },
+        {
+          "id": 2,
+          "type": "HOTEL",
+          "details": {
+            "hotelName": "Holiday Inn",
+            "hotelLocation": "Chicago - Near Millennium Park",
+            "checkInDate": "2025-01-28T22:00:00.000Z",
+            "checkOutDate": "2025-01-30T22:00:00.000Z",
+            "totalPrice": 180
+          }
+        },
+        {
+          "id": 3,
+          "type": "FLIGHT",
+          "details": {
+            "airline": "United Airlines",
+            "fromLocation": "Chicago",
+            "toLocation": "Miami",
+            "departureDateTime": "2025-01-28T22:00:00.000Z",
+            "arrivalDateTime": "2025-01-29T22:00:00.000Z",
+            "totalPrice": 600
+          }
+        },
+        {
+          "id": 4,
+          "type": "TAXI",
+          "details": {
+            "fromLocation": "Chicago - Millennium Park",
+            "toLocation": "San Francisco - Union Square",
+            "dateTime": "2025-01-28T22:00:00.000Z",
+            "totalPrice": 38
+          }
+        }
+      ],
+      "approverId": 2,
+      "financeId": 3,
+      "notes": "new note"
+    },
+    {
+      "id": 9,
+      "name": "New One",
+      "duration": "3",
+      "startDate": "2025-01-28T22:00:00.000Z",
+      "endDate": "2025-01-30T22:00:00.000Z",
+      "userCreatorId": 1,
+      "status": "APPROVED",
+      "expenses": [
+        {
+          "id": 1,
+          "type": "CAR_RENTAL",
+          "details": {
+            "carName": "Honda Civic",
+            "pickUpDateTime": "2025-01-06T22:00:00.000Z",
+            "dropOffDateTime": "2025-01-27T22:00:00.000Z",
+            "pickUpLocation": "Miami International Airport",
+            "dropOffLocation": "Miami International Airport",
+            "totalPrice": 200
+          }
+        },
+        {
+          "id": 2,
+          "type": "HOTEL",
+          "details": {
+            "hotelName": "",
+            "hotelLocation": "",
+            "checkInDate": "",
+            "checkOutDate": "",
+            "totalPrice": ""
+          }
+        },
+        {
+          "id": 3,
+          "type": "FLIGHT",
+          "details": {
+            "airline": "",
+            "fromLocation": "",
+            "toLocation": "",
+            "departureDateTime": "",
+            "arrivalDateTime": "",
+            "totalPrice": ""
+          }
+        },
+        {
+          "id": 4,
+          "type": "TAXI",
+          "details": {
+            "fromLocation": "",
+            "toLocation": "",
+            "dateTime": "",
+            "totalPrice": ""
+          }
+        }
+      ],
+      "notes": "some note",
+      "approverId": 2
+    },
+    {
+      "id": 10,
+      "name": "Miami Trip",
+      "duration": "6",
+      "startDate": "2025-01-21T22:00:00.000Z",
+      "endDate": "2025-01-27T22:00:00.000Z",
+      "userCreatorId": 1,
+      "status": "PENDING",
+      "expenses": [
+        {
+          "id": 1,
+          "type": "CAR_RENTAL",
+          "details": {
+            "carName": "BMW 3 Series",
+            "pickUpDateTime": "2025-01-21T22:00:00.000Z",
+            "dropOffDateTime": "2025-01-27T22:00:00.000Z",
+            "pickUpLocation": "Miami International Airport",
+            "dropOffLocation": "New York City - JFK",
+            "totalPrice": 350
+          }
+        },
+        {
+          "id": 2,
+          "type": "HOTEL",
+          "details": {
+            "hotelName": "",
+            "hotelLocation": "",
+            "checkInDate": "",
+            "checkOutDate": "",
+            "totalPrice": ""
+          }
+        },
+        {
+          "id": 3,
+          "type": "FLIGHT",
+          "details": {
+            "airline": "",
+            "fromLocation": "",
+            "toLocation": "",
+            "departureDateTime": "",
+            "arrivalDateTime": "",
+            "totalPrice": ""
+          }
+        },
+        {
+          "id": 4,
+          "type": "TAXI",
+          "details": {
+            "fromLocation": "",
+            "toLocation": "",
+            "dateTime": "",
+            "totalPrice": ""
           }
         }
       ]
