@@ -8,7 +8,7 @@ import { TripComponent } from './components/trip/trip.component';
 import { ApproverTripListComponent } from './components/approver/approver-trip-list.component';
 import { FinanceTripListComponent } from './components/finance/finance-trip-list.component';
 import { HeaderComponent } from './components/header/header.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatInputModule } from '@angular/material/input';
@@ -24,6 +24,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -52,7 +53,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTableModule,
     MatToolbarModule,
     HttpClientModule,
-    MatTooltipModule  
+    MatTooltipModule,
+    FormsModule,
+    MatSnackBarModule
     
   ],
   providers: [],

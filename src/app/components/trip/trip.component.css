@@ -1,6 +1,4 @@
-p {
-    font-family: Lato;
-  }
+
   .example-form {
     min-width: 150px;
     max-width: 500px;
@@ -15,6 +13,60 @@ p {
     max-width: 950px; 
     margin: 0 auto;
     margin-top: 80px;  
+  }
+
+  .note-button {
+    background-color: #414143;
+    color: white;
+  }
+
+  
+  .dialog-container {
+    padding: 16px;
+    text-align: center;
+  }
+  
+  .dialog-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: #333;
+  }
+  
+  .dialog-content {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 16px;
+  }
+  
+  .dialog-content p {
+    margin: 0;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+  }
+  
+  .dialog-btn {
+    font-size: 0.9rem;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #414143;
+    cursor: pointer;
+    color: white;
+    transition: all 0.2s ease;
+  }
+  
+  .dialog-btn:hover {
+    background: #e0e0e0;
+  }
+  
+  .confirm-btn {
+    border-color: #bbb;
+    color: white !important;
   }
   
   

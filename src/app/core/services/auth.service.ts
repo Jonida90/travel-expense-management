@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasUserDataInLocalStorage());
+  public isLoggedInSubject = new BehaviorSubject<boolean>(this.hasUserDataInLocalStorage());
   private currentUser: any = null;
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 

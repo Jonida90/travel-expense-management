@@ -8,7 +8,9 @@ export interface ITrip {
   startDate: Date;
   endDate: Date;
   expenses: IExpense[];
-  status: 'PENDING' | 'APPROVED' | 'CANCELLED' | 'REFUNDED' | 'IN_PROCESS';
-  approverNotes?: string;
-  userId?: any;
+  status: 'PENDING' | 'APPROVED' | 'CANCELLED' | 'REFUNDED' | 'PROCESS';
+  notes?: string;
+  userCreatorId?: any;
+  approverId?: any;
+  financeId?: any;
 }

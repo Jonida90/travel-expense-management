@@ -14,7 +14,17 @@ export class TripService {
     return this.http.get<ITrip[]>(this.apiUrl); 
   }
 
+  updateTripData(updatedTrip: ITrip): Observable<any> {
+    const url = `${this.apiUrl}/${updatedTrip.id}`; 
+    return this.http.put(url, updatedTrip); 
+  }
+
   addTrip(newTrip: ITrip): Observable<any> {
     return this.http.post(this.apiUrl, newTrip);
+  }
+
+  updateTrip(tripId: string, updatedTrip: any): Observable<any> {
+    const url = `${this.apiUrl}/${tripId}`; 
+    return this.http.patch(url, updatedTrip);
   }
 }

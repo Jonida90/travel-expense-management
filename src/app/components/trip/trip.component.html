@@ -1,33 +1,50 @@
 
 <mat-horizontal-stepper #stepper>
   <!-- Create Trip Step -->
-  <mat-step [stepControl]="createTripFormGroup" label="Create Trip">
+  <mat-step [stepControl]="createTripFormGroup" [label]="isApprover ? 'Trip Details' : 'Create Trip'">
     <div style="padding-top: 3%;">
       <form [formGroup]="createTripFormGroup">
         <div class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Trip Name</mat-label>
-            <input matInput placeholder="Enter trip name" required formControlName="tripName">
+            <input matInput placeholder="Enter trip name" formControlName="tripName" required>
+            <mat-error *ngIf="createTripFormGroup.get('tripName')?.hasError('required')">
+              Trip Name is required.
+            </mat-error>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Trip Duration</mat-label>
-            <input matInput placeholder="Enter trip duration" required formControlName="tripDuration">
+            <input matInput placeholder="Enter trip duration" formControlName="tripDuration" required>
+            <mat-error *ngIf="createTripFormGroup.get('tripDuration')?.hasError('required')">
+              Trip Duration is required.
+            </mat-error>
+            <mat-error *ngIf="createTripFormGroup.get('tripDuration')?.hasError('pattern')">
+              Trip Duration must be a valid number.
+            </mat-error>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Start Date</mat-label>
-            <input matInput [matDatepicker]="startPicker" required formControlName="tripStartDate">
+            <input matInput [matDatepicker]="startPicker" formControlName="tripStartDate" required>
             <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
             <mat-datepicker #startPicker></mat-datepicker>
+            <mat-error *ngIf="createTripFormGroup.get('tripStartDate')?.hasError('required')">
+              Start Date is required.
+            </mat-error>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>End Date</mat-label>
-            <input matInput [matDatepicker]="endPicker" required formControlName="tripEndDate">
+            <input matInput [matDatepicker]="endPicker" formControlName="tripEndDate" required>
             <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
             <mat-datepicker #endPicker></mat-datepicker>
+            <mat-error *ngIf="createTripFormGroup.get('tripEndDate')?.hasError('required')">
+              End Date is required.
+            </mat-error>
           </mat-form-field>
         </div>
         <br />
-        <button mat-raised-button color="primary" matStepperNext>Next</button>
+        <button mat-raised-button color="primary" matStepperNext [disabled]="createTripFormGroup.invalid">
+          Next
+        </button>
       </form>
     </div>
   </mat-step>
@@ -35,36 +52,35 @@
   <!-- Car Rental Step -->
   <mat-step [stepControl]="carRentalFormGroup" [optional]="true" label="Car Rental">
     <div style="padding-top: 3%;">
-      <mat-icon>directions_car</mat-icon>
       <form [formGroup]="carRentalFormGroup">
         <div class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Car Name</mat-label>
-            <input matInput placeholder="Enter car name" required formControlName="carName">
+            <input matInput placeholder="Enter car name" formControlName="carName">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Pick-Up Date & Time</mat-label>
-            <input matInput [matDatepicker]="carPickUpPicker" required formControlName="pickUpDateTime">
+            <input matInput [matDatepicker]="carPickUpPicker" formControlName="pickUpDateTime">
             <mat-datepicker-toggle matIconSuffix [for]="carPickUpPicker"></mat-datepicker-toggle>
             <mat-datepicker #carPickUpPicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Drop-Off Date & Time</mat-label>
-            <input matInput [matDatepicker]="carDropOffPicker" required formControlName="dropOffDateTime">
+            <input matInput [matDatepicker]="carDropOffPicker" formControlName="dropOffDateTime">
             <mat-datepicker-toggle matIconSuffix [for]="carDropOffPicker"></mat-datepicker-toggle>
             <mat-datepicker #carDropOffPicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Pick-Up Location</mat-label>
-            <input matInput placeholder="Enter pick-up location" required formControlName="pickUpLocation">
+            <input matInput placeholder="Enter pick-up location" formControlName="pickUpLocation">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Drop-Off Location</mat-label>
-            <input matInput placeholder="Enter drop-off location" required formControlName="dropOffLocation">
+            <input matInput placeholder="Enter drop-off location" formControlName="dropOffLocation">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Total Price</mat-label>
-            <input matInput type="number" placeholder="Enter total price" required formControlName="totalPrice">
+            <input matInput type="number" placeholder="Enter total price" formControlName="totalPrice">
           </mat-form-field>
         </div>
         <br />
@@ -76,32 +92,31 @@
   <!-- Hotel Step -->
   <mat-step [stepControl]="hotelFormGroup" [optional]="true" label="Hotel">
     <div style="padding-top: 3%;">
-      <mat-icon>home</mat-icon>
       <form [formGroup]="hotelFormGroup">
         <div class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Hotel Name</mat-label>
-            <input matInput placeholder="Enter hotel name" required formControlName="hotelName">
+            <input matInput placeholder="Enter hotel name" formControlName="hotelName">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Hotel Location</mat-label>
-            <input matInput placeholder="Enter hotel location" required formControlName="hotelLocation">
+            <input matInput placeholder="Enter hotel location" formControlName="hotelLocation">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Check-In Date</mat-label>
-            <input matInput [matDatepicker]="hotelCheckInPicker" required formControlName="checkInDate">
+            <input matInput [matDatepicker]="hotelCheckInPicker" formControlName="checkInDate">
             <mat-datepicker-toggle matIconSuffix [for]="hotelCheckInPicker"></mat-datepicker-toggle>
             <mat-datepicker #hotelCheckInPicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Check-Out Date</mat-label>
-            <input matInput [matDatepicker]="hotelCheckOutPicker" required formControlName="checkOutDate">
+            <input matInput [matDatepicker]="hotelCheckOutPicker" formControlName="checkOutDate">
             <mat-datepicker-toggle matIconSuffix [for]="hotelCheckOutPicker"></mat-datepicker-toggle>
             <mat-datepicker #hotelCheckOutPicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Total Price</mat-label>
-            <input matInput type="number" placeholder="Enter total price" required formControlName="totalPrice">
+            <input matInput type="number" placeholder="Enter total price" formControlName="totalPrice">
           </mat-form-field>
         </div>
         <br />
@@ -113,36 +128,35 @@
   <!-- Flight Step -->
   <mat-step [stepControl]="flightFormGroup" [optional]="true" label="Flight">
     <div style="padding-top: 3%;">
-      <mat-icon>airplanemode_active</mat-icon>
       <form [formGroup]="flightFormGroup">
         <div class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Airline</mat-label>
-            <input matInput placeholder="Enter airline name" required formControlName="airline">
+            <input matInput placeholder="Enter airline name" formControlName="airline">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>From</mat-label>
-            <input matInput placeholder="Enter departure location" required formControlName="fromLocation">
+            <input matInput placeholder="Enter departure location" formControlName="fromLocation">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>To</mat-label>
-            <input matInput placeholder="Enter destination" required formControlName="toLocation">
+            <input matInput placeholder="Enter destination" formControlName="toLocation">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Departure Date & Time</mat-label>
-            <input matInput [matDatepicker]="flightDeparturePicker" required formControlName="departureDateTime">
+            <input matInput [matDatepicker]="flightDeparturePicker" formControlName="departureDateTime">
             <mat-datepicker-toggle matIconSuffix [for]="flightDeparturePicker"></mat-datepicker-toggle>
             <mat-datepicker #flightDeparturePicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Arrival Date & Time</mat-label>
-            <input matInput [matDatepicker]="flightArrivalPicker" required formControlName="arrivalDateTime">
+            <input matInput [matDatepicker]="flightArrivalPicker" formControlName="arrivalDateTime">
             <mat-datepicker-toggle matIconSuffix [for]="flightArrivalPicker"></mat-datepicker-toggle>
             <mat-datepicker #flightArrivalPicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Total Price</mat-label>
-            <input matInput type="number" placeholder="Enter total price" required formControlName="totalPrice">
+            <input matInput type="number" placeholder="Enter total price" formControlName="totalPrice">
           </mat-form-field>
         </div>
         <br />
@@ -154,26 +168,25 @@
   <!-- Taxi Step -->
   <mat-step [stepControl]="taxiFormGroup" [optional]="true" label="Taxi">
     <div style="padding-top: 3%;">
-      <mat-icon>local_taxi</mat-icon>
       <form [formGroup]="taxiFormGroup">
         <div class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>From</mat-label>
-            <input matInput placeholder="Enter starting location" required formControlName="fromLocation">
+            <input matInput placeholder="Enter starting location" formControlName="fromLocation">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>To</mat-label>
-            <input matInput placeholder="Enter destination" required formControlName="toLocation">
+            <input matInput placeholder="Enter destination" formControlName="toLocation">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Date & Time</mat-label>
-            <input matInput [matDatepicker]="taxiPicker" required formControlName="dateTime">
+            <input matInput [matDatepicker]="taxiPicker" formControlName="dateTime">
             <mat-datepicker-toggle matIconSuffix [for]="taxiPicker"></mat-datepicker-toggle>
             <mat-datepicker #taxiPicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>Total Price</mat-label>
-            <input matInput type="number" placeholder="Enter total price" required formControlName="totalPrice">
+            <input matInput type="number" placeholder="Enter total price" formControlName="totalPrice">
           </mat-form-field>
         </div>
         <br />
@@ -185,11 +198,56 @@
   <!-- Review and Submit -->
   <mat-step>
     <ng-template matStepLabel>Review</ng-template>
-    <h5>You are now done.</h5>
+    <div *ngIf="!isApprover">
+    <h5>You have successfully added trip details.</h5>
     <div>
-      <button mat-raised-button color="primary" matStepperPrevious>Back</button> &nbsp; &nbsp;
-      <button mat-raised-button color="accent" type="submit" (click)="submitTripData()">Submit</button> &nbsp; &nbsp;
+      <button mat-raised-button class="note-button" matStepperPrevious>Back</button> &nbsp; &nbsp;
+      <button mat-raised-button color="accent" type="submit" [disabled]="!this.createTripFormGroup.valid" (click)="submitTripData()">Submit</button> &nbsp; &nbsp;
       <button mat-raised-button color="warn" (click)="stepper.reset()">Reset</button>
     </div>
+  </div>
+
+  <!-- Review and Approve -->
+  <div *ngIf="isApprover">
+    <h5>After reviewing make the neccessary actions.</h5>
+    <div>
+      <button mat-raised-button class="note-button" (click)="openNoteDialog()">Make a note</button> &nbsp; &nbsp;
+      <button mat-raised-button color="accent" type="submit" (click)="approveTrip()">Approve</button> &nbsp; &nbsp;
+      <button mat-raised-button color="warn" (click)="cancelTrip()">Cancel</button>
+    </div>
+  </div>
   </mat-step>
 </mat-horizontal-stepper>
+
+
+<ng-template #confirmDialogTemplate let-data>
+  <div class="dialog-container">
+    <h2 mat-dialog-title class="dialog-title">Confirmation</h2>
+    <mat-dialog-content class="dialog-content">
+      <p [innerHTML]="data?.message"></p>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end" class="dialog-actions">
+      <button mat-button class="dialog-btn" (click)="closeDialog(false)">Cancel</button>
+      <button mat-button class="dialog-btn confirm-btn" (click)="closeDialog(true)">Confirm</button>
+    </mat-dialog-actions>
+  </div>
+</ng-template>
+
+<ng-template #noteDialogTemplate let-data>
+  <div class="dialog-container">
+    <h2 mat-dialog-title class="dialog-title">Leave a Note</h2>
+    <mat-dialog-content class="dialog-content">
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Note</mat-label>
+        <input matInput placeholder="Write your note here..." [(ngModel)]="noteContent" />
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end" class="dialog-actions">
+      <button mat-button class="dialog-btn" (click)="closeDialog(false)">Cancel</button>
+      <button mat-button class="dialog-btn confirm-btn" [disabled]="!noteContent" (click)="closeDialog(true)">
+        Save Note
+      </button>
+    </mat-dialog-actions>
+  </div>
+</ng-template>
+

@@ -1,6 +1,8 @@
-import { Component, Inject, Optional } from '@angular/core';
+import { Component, Inject, Optional, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatStepper } from '@angular/material/stepper';
 import { ITrip } from 'src/app/core/interfaces/trip.interface';
 import { TripService } from 'src/app/core/services/trip.service';
 
@@ -16,45 +18,57 @@ export class TripComponent {
   public hotelFormGroup: FormGroup;
   public flightFormGroup: FormGroup;
   public taxiFormGroup: FormGroup;
+  public trip: ITrip;
+  public isApprover: boolean;
+  public userLoggedIn: any;
 
-  constructor(private _formBuilder: FormBuilder, private tripService: TripService, @Inject(MAT_DIALOG_DATA) @Optional() public trip: ITrip) {
+  @ViewChild('confirmDialogTemplate') confirmDialogTemplate!: TemplateRef<any>;
+  @ViewChild('noteDialogTemplate') noteDialogTemplate!: TemplateRef<any>;
+  @ViewChild('stepper') stepper!: MatStepper;
+  dialogRef!: MatDialogRef<any>;
+  noteContent: string = '';
+
+  constructor(private _formBuilder: FormBuilder, private tripService: TripService, private snackBar: MatSnackBar, private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) @Optional() public data: any) {
+    this.trip = data?.trip;
+    this.isApprover = data?.isApprover || false;
+
     this.createTripFormGroup = this._formBuilder.group({
-      tripName: this.trip?.name || '',
-      tripDuration: this.trip?.duration || '',
-      tripStartDate: this.trip?.startDate || '',
-      tripEndDate: this.trip?.endDate || '',
+      tripName: [this.trip?.name || '', Validators.required],
+      tripDuration: [this.trip?.duration || '', [Validators.required, Validators.pattern(/^\d+$/)]],
+      tripStartDate: [this.trip?.startDate || '', Validators.required],
+      tripEndDate: [this.trip?.endDate || '', Validators.required],
     });
 
     this.carRentalFormGroup = this._formBuilder.group({
-      carName: ['', Validators.required],
-      pickUpDateTime: ['', Validators.required],
-      dropOffDateTime: ['', Validators.required],
-      pickUpLocation: ['', Validators.required],
-      dropOffLocation: ['', Validators.required],
+      carName: [''],
+      pickUpDateTime: [''],
+      dropOffDateTime: [''],
+      pickUpLocation: [''],
+      dropOffLocation: [''],
       totalPrice: ['', [Validators.required, Validators.min(0)]],
     });
 
     this.hotelFormGroup = this._formBuilder.group({
-      hotelName: ['', Validators.required],
-      hotelLocation: ['', Validators.required],
-      checkInDate: ['', Validators.required],
-      checkOutDate: ['', Validators.required],
+      hotelName: [''],
+      hotelLocation: [''],
+      checkInDate: [''],
+      checkOutDate: [''],
       totalPrice: ['', [Validators.required, Validators.min(0)]],
     });
 
     this.flightFormGroup = this._formBuilder.group({
-      airline: ['', Validators.required],
-      fromLocation: ['', Validators.required],
-      toLocation: ['', Validators.required],
-      departureDateTime: ['', Validators.required],
-      arrivalDateTime: ['', Validators.required],
+      airline: [''],
+      fromLocation: [''],
+      toLocation: [''],
+      departureDateTime: [''],
+      arrivalDateTime: [''],
       totalPrice: ['', [Validators.required, Validators.min(0)]],
     });
 
     this.taxiFormGroup = this._formBuilder.group({
-      fromLocation: ['', Validators.required],
-      toLocation: ['', Validators.required],
-      dateTime: ['', Validators.required],
+      fromLocation: [''],
+      toLocation: [''],
+      dateTime: [''],
       totalPrice: ['', [Validators.required, Validators.min(0)]],
     });
 
@@ -62,7 +76,10 @@ export class TripComponent {
   }
 
   ngOnInit() {
-   
+    if (this.isApprover) {
+      this.disableAllInputs();
+    }
+    this.userLoggedIn = JSON.parse(localStorage.getItem('userData') || '{}').id;
   }
 
   private initializeExpenses() {
@@ -96,7 +113,7 @@ export class TripComponent {
           airline: flightExpense.details.airline,
           fromLocation: flightExpense.details.fromLocation,
           toLocation: flightExpense.details.toLocation,
-          departureDateTime:flightExpense.details.departureDateTime,
+          departureDateTime: flightExpense.details.departureDateTime,
           arrivalDateTime: flightExpense.details.arrivalDateTime,
           totalPrice: flightExpense.details.totalPrice,
         });
@@ -105,9 +122,9 @@ export class TripComponent {
       const taxiExpense = this.trip.expenses.find(expense => expense.type === 'TAXI');
       if (taxiExpense) {
         this.taxiFormGroup.patchValue({
-          fromLocation: taxiExpense.details.from || '',
-          toLocation: taxiExpense.details.to || '',
-          dateTime: taxiExpense.details.timeDate || '',
+          fromLocation: taxiExpense.details.fromLocation || '',
+          toLocation: taxiExpense.details.toLocation || '',
+          dateTime: taxiExpense.details.dateTime || '',
           totalPrice: taxiExpense.details.totalPrice || ''
         });
       }
@@ -115,19 +132,13 @@ export class TripComponent {
   }
 
   submitTripData() {
-    // if (this.formCreateTripGroup.valid &&
-    //   this.formCarRentalGroup.valid &&
-    //   this.formHotelGroup.valid &&
-    //   this.formFlightGroup.valid &&
-    //   this.formTaxiGroup.valid) {
-  
       const newTrip: ITrip = {
-        id: "",  // Let the server assign the ID
+        id: "",
         name: this.createTripFormGroup.value.tripName,
         duration: this.createTripFormGroup.value.tripDuration,
         startDate: this.createTripFormGroup.value.tripStartDate,
         endDate: this.createTripFormGroup.value.tripEndDate,
-        userId: 1, // Assuming current user is (ID: 1)
+        userCreatorId: this.userLoggedIn,
         status: 'PENDING',
         expenses: [
           {
@@ -152,17 +163,134 @@ export class TripComponent {
           }
         ]
       };
-  
-      //send the new trip to the server
+      
       this.tripService.addTrip(newTrip).subscribe(
         (response) => {
-          console.log('New trip added:', response);
-         // this.resetForms();  // Reset forms after submission
+          this.snackBar.open('Trip added successfully!', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          });
+          this.stepper.reset();
         },
         (error) => {
-          console.error('Error adding trip:', error);
+          this.snackBar.open('Something went wrong while adding trip', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          });
         }
       );
-    //}
+  }
+
+  disableAllInputs() {
+    this.createTripFormGroup.disable();
+    this.carRentalFormGroup.disable();
+    this.hotelFormGroup.disable();
+    this.flightFormGroup.disable();
+    this.taxiFormGroup.disable();
+  }
+
+  approveTrip(): void {
+    this.openConfirmationDialog('Are you sure you want to <strong>Approve</strong> this trip?')
+      .subscribe((result) => {
+        if (result) {
+          const updatedTrip: ITrip = {
+            ...this.trip,
+            status: 'APPROVED', 
+            approverId: this.userLoggedIn
+          };
+          this.tripService.updateTripData(updatedTrip).subscribe({
+            next: (updatedTrip) => {
+              this.dialogRef.close({ success: true, updatedTrip });
+              this.snackBar.open('Trip approved successfully!', 'Close', {
+                duration: 3000,
+                horizontalPosition: 'right',
+                verticalPosition: 'top'
+              });
+            },
+            error: (err) => {
+              console.error('Error updating trip status:', err);
+            },
+          });
+        }
+      });
+  }
+
+  cancelTrip() {
+    this.openConfirmationDialog('Are you sure you want to <strong>Cancel</strong> this trip?')
+      .subscribe((result) => {
+        if (result) {
+          const updatedTrip: ITrip = {
+            ...this.trip,
+            status: 'CANCELLED', 
+            approverId: this.userLoggedIn
+          };
+          this.tripService.updateTripData(updatedTrip).subscribe({
+            next: (updatedTrip) => {
+              this.snackBar.open('Trip cancelled!', 'Close', {
+                duration: 3000,
+                horizontalPosition: 'right',
+                verticalPosition: 'top'
+              });
+            },
+            error: (err) => {
+              console.error('Error updating trip status:', err);
+            },
+          });
+        }
+      });
+  }
+
+  openConfirmationDialog(confirmationMessage: string) {
+    this.dialogRef = this.dialog.open(this.confirmDialogTemplate, {
+      width: '300px',
+      data: { message: confirmationMessage },
+    });
+
+    return this.dialogRef.afterClosed();
+  }
+
+  closeDialog(result: boolean): void {
+    if (this.dialogRef) {
+      this.dialogRef.close(result);
+    }
+  }
+
+
+  openNoteDialog(): void {
+    this.dialogRef = this.dialog.open(this.noteDialogTemplate, {
+      width: '400px',
+      data: { message: 'Add your note for the trip' },
+    });
+
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.leaveTripNote();
+      } else {
+        this.noteContent = '';
+      }
+    });
+  }
+
+  leaveTripNote() {
+    const updatedTrip = {
+      ...this.trip, 
+      notes: this.noteContent
+    };
+
+    this.tripService.updateTrip(this.trip.id, updatedTrip).subscribe(
+      (response) => {
+        this.snackBar.open('Note saved successfully!', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top'
+        });
+        this.noteContent = '';
+      },
+      (error) => {
+        console.error('Error saving note:', error);
+      }
+    );
   }
 }

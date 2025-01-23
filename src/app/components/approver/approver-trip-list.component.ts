@@ -34,12 +34,14 @@ export class ApproverTripListComponent implements OnInit {
   openTripStepper(trip: ITrip): void {
     const dialogRef = this.dialog.open(TripComponent, {
       width: '800px',
-      data: trip
+      data: {
+        trip: trip,
+        isApprover: true
+      }
     });
 
-    console.log(trip);
     dialogRef.afterClosed().subscribe(result => {
-      //hande
+      this.getTripsList();
     });
   }
 }

@@ -1,6 +1,6 @@
 export interface IExpense {
-    id: Number;
+    id: number;
     type: 'CAR_RENTAL' | 'HOTEL' | 'FLIGHT' | 'TAXI';
-    details?: any; // Use specific types or interfaces for more detail
+    details?: any; 
   }
   

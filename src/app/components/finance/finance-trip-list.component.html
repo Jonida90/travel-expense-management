@@ -26,7 +26,8 @@
   <!-- Status Column -->
   <ng-container matColumnDef="status">
     <th mat-header-cell *matHeaderCellDef> Status </th>
-    <td mat-cell *matCellDef="let trip" style="text-transform: capitalize;"> {{ trip.status }} </td>
+    <td mat-cell *matCellDef="let trip">  {{ trip.status.charAt(0).toUpperCase() + trip.status.slice(1).toLowerCase() }}
+    </td>
   </ng-container>
 
 
