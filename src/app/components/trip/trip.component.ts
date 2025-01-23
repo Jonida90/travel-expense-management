@@ -169,7 +169,7 @@ export class TripComponent {
           this.snackBar.open('Trip added successfully!', 'Close', {
             duration: 3000,
             horizontalPosition: 'right',
-            verticalPosition: 'top'
+            verticalPosition: 'bottom'
           });
           this.stepper.reset();
         },
@@ -177,7 +177,7 @@ export class TripComponent {
           this.snackBar.open('Something went wrong while adding trip', 'Close', {
             duration: 3000,
             horizontalPosition: 'right',
-            verticalPosition: 'top'
+            verticalPosition: 'bottom'
           });
         }
       );
@@ -206,7 +206,7 @@ export class TripComponent {
               this.snackBar.open('Trip approved successfully!', 'Close', {
                 duration: 3000,
                 horizontalPosition: 'right',
-                verticalPosition: 'top'
+                verticalPosition: 'bottom'
               });
             },
             error: (err) => {
@@ -231,7 +231,7 @@ export class TripComponent {
               this.snackBar.open('Trip cancelled!', 'Close', {
                 duration: 3000,
                 horizontalPosition: 'right',
-                verticalPosition: 'top'
+                verticalPosition: 'bottom'
               });
             },
             error: (err) => {
@@ -284,7 +284,7 @@ export class TripComponent {
         this.snackBar.open('Note saved successfully!', 'Close', {
           duration: 3000,
           horizontalPosition: 'right',
-          verticalPosition: 'top'
+          verticalPosition: 'bottom'
         });
         this.noteContent = '';
       },

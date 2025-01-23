@@ -54,7 +54,7 @@ export class FinanceTripListComponent implements OnInit {
               this.snackBar.open('Trip status changed successfully!', 'Close', {
                 duration: 3000,
                 horizontalPosition: 'right',
-                verticalPosition: 'top'
+                verticalPosition: 'bottom'
               });
               this.getApprovedTripsList();
             },
@@ -80,7 +80,7 @@ export class FinanceTripListComponent implements OnInit {
               this.snackBar.open('Trip status changed successfully!', 'Close', {
                 duration: 3000,
                 horizontalPosition: 'right',
-                verticalPosition: 'top'
+                verticalPosition: 'bottom'
               });
               this.getApprovedTripsList();
             },
