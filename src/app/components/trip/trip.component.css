@@ -10,5 +10,11 @@ p {
   .example-full-width {
     width: 100%;
   }
+
+  mat-horizontal-stepper {
+    max-width: 950px; 
+    margin: 0 auto;
+    margin-top: 80px;  
+  }
   
   
