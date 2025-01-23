@@ -10,7 +10,7 @@ import { ITrip } from 'src/app/core/interfaces/trip.interface';
   styleUrls: ['./approver-trip-list.component.css']
 })
 export class ApproverTripListComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'duration', 'startDate', 'endDate', 'status'];
+  displayedColumns: string[] = ['name', 'duration', 'startDate', 'endDate', 'status', 'notes'];
   public trips: Array<ITrip> = [];
 
   constructor(public dialog: MatDialog, public tripService: TripService) { }
