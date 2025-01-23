@@ -22,6 +22,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { HttpClientModule } from '@angular/common/http';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -48,7 +50,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatIconModule,
     MatDialogModule,  
     MatTableModule,
-    MatToolbarModule
+    MatToolbarModule,
+    HttpClientModule,
+    MatTooltipModule  
     
   ],
   providers: [],

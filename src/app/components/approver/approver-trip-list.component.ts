@@ -1,17 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TripComponent } from '../trip/trip.component';
 import { MatDialog } from '@angular/material/dialog';
-
-export interface Trip {
-  tripName: string;
-  tripDuration: string;
-  tripStartDate: Date;
-  tripEndDate: Date;
-  carName: string;
-  hotelName: string;
-  flightAirline: string;
-  totalPrice: number;
-}
+import { TripService } from 'src/app/core/services/trip.service';
+import { ITrip } from 'src/app/core/interfaces/trip.interface';
 
 @Component({
   selector: 'approver-trip-list',
@@ -19,43 +10,36 @@ export interface Trip {
   styleUrls: ['./approver-trip-list.component.css']
 })
 export class ApproverTripListComponent implements OnInit {
-  displayedColumns: string[] = ['tripName', 'tripDuration', 'tripStartDate', 'tripEndDate', 'carName', 'hotelName', 'flightAirline', 'totalPrice'];
-  trips: Trip[] = [
-    {
-      tripName: 'Beach Vacation',
-      tripDuration: '7 Days',
-      tripStartDate: new Date('2025-06-01'),
-      tripEndDate: new Date('2025-06-07'),
-      carName: 'Toyota Corolla',
-      hotelName: 'Oceanfront Resort',
-      flightAirline: 'Delta Airlines',
-      totalPrice: 1200
-    },
-    {
-      tripName: 'Mountain Adventure',
-      tripDuration: '5 Days',
-      tripStartDate: new Date('2025-07-10'),
-      tripEndDate: new Date('2025-07-15'),
-      carName: 'Ford Explorer',
-      hotelName: 'Mountain Lodge',
-      flightAirline: 'United Airlines',
-      totalPrice: 900
-    }
-  ];
+  displayedColumns: string[] = ['name', 'duration', 'startDate', 'endDate', 'status'];
+  public trips: Array<ITrip> = [];
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, public tripService: TripService) { }
 
   ngOnInit(): void {
+    this.getTripsList();
   }
 
-  openTripStepper(trip: Trip): void {
+  private getTripsList(): void {
+    this.tripService.getTrips().subscribe(
+      (data: ITrip[]) => {
+        this.trips = data; 
+        console.log('Trips fetched:', data);
+      },
+      (error) => {
+        console.error('Error fetching trips:', error); 
+      }
+    );
+  }
+
+  openTripStepper(trip: ITrip): void {
     const dialogRef = this.dialog.open(TripComponent, {
       width: '800px',
       data: trip
     });
 
+    console.log(trip);
     dialogRef.afterClosed().subscribe(result => {
-      // Handle any action
+      //hande
     });
   }
 }

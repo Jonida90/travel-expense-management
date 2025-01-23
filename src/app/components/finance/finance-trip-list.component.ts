@@ -1,17 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-
-export interface Trip {
-  tripName: string;
-  tripDuration: string;
-  tripStartDate: Date;
-  tripEndDate: Date;
-  carName: string;
-  hotelName: string;
-  flightAirline: string;
-  totalPrice: number;
-  status: 'Approved' | 'Refunded' | 'In Process'; // New field for status
-}
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ITrip } from 'src/app/core/interfaces/trip.interface';
+import { TripService } from 'src/app/core/services/trip.service';
 
 @Component({
   selector: 'finance-trip-list',
@@ -19,42 +9,52 @@ export interface Trip {
   styleUrls: ['./finance-trip-list.component.css']
 })
 export class FinanceTripListComponent implements OnInit {
-  displayedColumns: string[] = ['tripName', 'tripDuration', 'tripStartDate', 'tripEndDate', 'carName', 'hotelName', 'flightAirline', 'totalPrice', 'status', 'action'];
-  
-  trips: Trip[] = [
-    {
-      tripName: 'Beach Vacation',
-      tripDuration: '7 Days',
-      tripStartDate: new Date('2025-06-01'),
-      tripEndDate: new Date('2025-06-07'),
-      carName: 'Toyota Corolla',
-      hotelName: 'Oceanfront Resort',
-      flightAirline: 'Delta Airlines',
-      totalPrice: 1200,
-      status: 'Approved'
-    },
-    {
-      tripName: 'Mountain Adventure',
-      tripDuration: '5 Days',
-      tripStartDate: new Date('2025-07-10'),
-      tripEndDate: new Date('2025-07-15'),
-      carName: 'Ford Explorer',
-      hotelName: 'Mountain Lodge',
-      flightAirline: 'United Airlines',
-      totalPrice: 900,
-      status: 'Approved'
-    }
-  ];
 
-  constructor(public dialog: MatDialog) {}
+  public trips: Array<ITrip> = [];
+  displayedColumns: string[] = ['name', 'duration', 'startDate', 'endDate', 'status', 'action'];
 
-  ngOnInit(): void {}
+  constructor(public tripService: TripService, private dialog: MatDialog) { }
 
-  markAsRefunded(trip: Trip): void {
-    trip.status = 'Refunded';
+  @ViewChild('confirmDialogTemplate') confirmDialogTemplate!: TemplateRef<any>;
+  dialogRef!: MatDialogRef<any>;
+
+
+  ngOnInit(): void {
+    this.getApprovedTripsList();
   }
 
-  markAsInProcess(trip: Trip): void {
-    trip.status = 'In Process';
+  private getApprovedTripsList(): void {
+    this.tripService.getTrips().subscribe(
+      (data: ITrip[]) => {
+        this.trips = data.filter(t => t.status === 'APPROVED');
+        console.log('Trips fetched:', data);
+      },
+      (error) => {
+        console.error('Error fetching trips:', error);
+      }
+    );
+  }
+
+  markTripAsRefunded(trip: ITrip): void {
+    this.dialogRef = this.dialog.open(this.confirmDialogTemplate, {
+      width: '300px',
+      data: trip,
+    });
+
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        //do the changes
+      }
+    });
+  }
+
+  closeDialog(result: boolean): void {
+    if (this.dialogRef) {
+      this.dialogRef.close(result);
+    }
+  }
+
+  markAsInProcess(trip: ITrip): void {
+    trip.status = 'IN_PROCESS';
   }
 }

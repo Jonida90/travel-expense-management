@@ -1,9 +1,9 @@
 <h2 align="center"> Trip Expense Management </h2>
 <mat-horizontal-stepper #stepper>
   <!-- Create Trip Step -->
-  <mat-step [stepControl]="formCreateTripGroup" label="Create Trip">
+  <mat-step [stepControl]="createTripFormGroup" label="Create Trip">
     <div style="padding-top: 3%;">
-      <form [formGroup]="formCreateTripGroup">
+      <form [formGroup]="createTripFormGroup">
         <div class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Trip Name</mat-label>
@@ -33,10 +33,10 @@
   </mat-step>
 
   <!-- Car Rental Step -->
-  <mat-step [stepControl]="formCarRentalGroup" label="Car Rental">
+  <mat-step [stepControl]="carRentalFormGroup" [optional]="true" label="Car Rental">
     <div style="padding-top: 3%;">
       <mat-icon>directions_car</mat-icon>
-      <form [formGroup]="formCarRentalGroup">
+      <form [formGroup]="carRentalFormGroup">
         <div class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Car Name</mat-label>
@@ -74,10 +74,10 @@
   </mat-step>
 
   <!-- Hotel Step -->
-  <mat-step [stepControl]="formHotelGroup" label="Hotel">
+  <mat-step [stepControl]="hotelFormGroup" [optional]="true" label="Hotel">
     <div style="padding-top: 3%;">
       <mat-icon>home</mat-icon>
-      <form [formGroup]="formHotelGroup">
+      <form [formGroup]="hotelFormGroup">
         <div class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Hotel Name</mat-label>
@@ -111,10 +111,10 @@
   </mat-step>
 
   <!-- Flight Step -->
-  <mat-step [stepControl]="formFlightGroup" label="Flight">
+  <mat-step [stepControl]="flightFormGroup" [optional]="true" label="Flight">
     <div style="padding-top: 3%;">
       <mat-icon>airplanemode_active</mat-icon>
-      <form [formGroup]="formFlightGroup">
+      <form [formGroup]="flightFormGroup">
         <div class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Airline</mat-label>
@@ -152,10 +152,10 @@
   </mat-step>
 
   <!-- Taxi Step -->
-  <mat-step [stepControl]="formTaxiGroup" label="Taxi">
+  <mat-step [stepControl]="taxiFormGroup" [optional]="true" label="Taxi">
     <div style="padding-top: 3%;">
       <mat-icon>local_taxi</mat-icon>
-      <form [formGroup]="formTaxiGroup">
+      <form [formGroup]="taxiFormGroup">
         <div class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>From</mat-label>
@@ -188,7 +188,7 @@
     <h5>You are now done.</h5>
     <div>
       <button mat-raised-button color="primary" matStepperPrevious>Back</button> &nbsp; &nbsp;
-      <button mat-raised-button color="accent" type="submit">Submit</button> &nbsp; &nbsp;
+      <button mat-raised-button color="accent" type="submit" (click)="submitTripData()">Submit</button> &nbsp; &nbsp;
       <button mat-raised-button color="warn" (click)="stepper.reset()">Reset</button>
     </div>
   </mat-step>

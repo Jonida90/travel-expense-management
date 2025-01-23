@@ -1,8 +1,6 @@
 <mat-toolbar color="primary" class="app-header">
-    <span class="user-name">Welcome, {{ userName }}</span>
-    <span class="spacer"></span>
-    <button mat-icon-button (click)="logout()">
-      <mat-icon>logout</mat-icon>
-    </button>
-  </mat-toolbar>
-  
+  <span class="user-name">Welcome, {{ userName }}</span>
+  <button mat-icon-button (click)="logout()" matTooltip="Logout">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
