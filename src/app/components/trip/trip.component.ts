@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepper } from '@angular/material/stepper';
+import { forkJoin } from 'rxjs';
 import { ITrip } from 'src/app/core/interfaces/trip.interface';
 import { TripService } from 'src/app/core/services/trip.service';
 
@@ -21,6 +22,15 @@ export class TripComponent {
   public trip: ITrip;
   public isApprover: boolean;
   public userLoggedIn: any;
+
+  cars: string[] = [];
+  pickupLocations: string[] = [];
+  dropOffLocations: string[] = [];
+  airlines: string[] = [];
+  locations: string[] = [];
+  hotels: string[] = [];
+  hotelLocations: string[] = [];
+  taxiLocations: string[] = [];
 
   @ViewChild('confirmDialogTemplate') confirmDialogTemplate!: TemplateRef<any>;
   @ViewChild('noteDialogTemplate') noteDialogTemplate!: TemplateRef<any>;
@@ -80,6 +90,126 @@ export class TripComponent {
       this.disableAllInputs();
     }
     this.userLoggedIn = JSON.parse(localStorage.getItem('userData') || '{}').id;
+
+    this.initForms();
+    this.fetchTripsData();
+  }
+
+
+  private initForms() {
+    this.carRentalFormGroup.get('carName')?.valueChanges.subscribe((carName) => this.updateCarRentalTotalPrice(carName));
+    this.flightFormGroup.get('airline')?.valueChanges.subscribe((airline) => this.updateFlightTotalPrice(airline));
+    this.hotelFormGroup.get('hotelName')?.valueChanges.subscribe((hotelName) => this.updateHotelTotalPrice(hotelName));
+    this.taxiFormGroup.get('fromLocation')?.valueChanges.subscribe(() => this.updateTaxiTotalPrice());
+    this.taxiFormGroup.get('toLocation')?.valueChanges.subscribe(() => this.updateTaxiTotalPrice());
+  }
+
+  updateCarRentalTotalPrice(carName: string): void {
+    const carPrices: { [key: string]: number } = {
+      'Toyota Corolla': 250,
+      'Honda Civic': 200,
+      'Ford Mustang': 300,
+      'Chevrolet Malibu': 280,
+      'BMW 3 Series': 350,
+    };
+    const totalPrice = carPrices[carName] || 0;
+    this.carRentalFormGroup.patchValue({ totalPrice });
+  }
+
+  // Update the total price for flights
+  updateFlightTotalPrice(airline: string): void {
+    const airlinePrices: { [key: string]: number } = {
+      'Delta Airlines': 500,
+      'American Airlines': 550,
+      'United Airlines': 600,
+      'Southwest Airlines': 450,
+      'JetBlue Airways': 480,
+    };
+    const totalPrice = airlinePrices[airline] || 0;
+    this.flightFormGroup.patchValue({ totalPrice });
+  }
+
+  // Update the total price for hotels
+  updateHotelTotalPrice(hotelName: string): void {
+    const hotelPrices: { [key: string]: number } = {
+      'Hilton Garden Inn': 200,
+      'Marriott Hotel': 250,
+      'Holiday Inn': 180,
+      'Sheraton': 220,
+      'Hyatt Regency': 300,
+    };
+    const totalPrice = hotelPrices[hotelName] || 0;
+    this.hotelFormGroup.patchValue({ totalPrice });
+  }
+
+  // Update the total price for taxi
+  updateTaxiTotalPrice(): void {
+    const taxiPrices: { [key: string]: number } = {
+      'New York City - Times Square - Los Angeles - Santa Monica Pier': 30,
+      'New York City - Times Square - Chicago - Millennium Park': 35,
+      'New York City - Times Square - San Francisco - Union Square': 28,
+      'New York City - Times Square - Miami - Ocean Drive': 20,
+      'Los Angeles - Santa Monica Pier - New York City - Times Square': 25,
+      'Los Angeles - Santa Monica Pier - Chicago - Millennium Park': 40,
+      'Los Angeles - Santa Monica Pier - San Francisco - Union Square': 32,
+      'Los Angeles - Santa Monica Pier - Miami - Ocean Drive': 27,
+      'Chicago - Millennium Park - New York City - Times Square': 35,
+      'Chicago - Millennium Park - Los Angeles - Santa Monica Pier': 45,
+      'Chicago - Millennium Park - San Francisco - Union Square': 38,
+      'Chicago - Millennium Park - Miami - Ocean Drive': 30,
+      'San Francisco - Union Square - New York City - Times Square': 28,
+      'San Francisco - Union Square - Los Angeles - Santa Monica Pier': 32,
+      'San Francisco - Union Square - Chicago - Millennium Park': 38,
+      'San Francisco - Union Square - Miami - Ocean Drive': 33,
+      'Miami - Ocean Drive - New York City - Times Square': 20,
+      'Miami - Ocean Drive - Los Angeles - Santa Monica Pier': 27,
+      'Miami - Ocean Drive - Chicago - Millennium Park': 30,
+      'Miami - Ocean Drive - San Francisco - Union Square': 33,
+    };
+
+    const fromLocation = this.taxiFormGroup.get('fromLocation')?.value;
+    const toLocation = this.taxiFormGroup.get('toLocation')?.value;
+
+    console.log('From:', fromLocation);
+    console.log('To:', toLocation);
+
+    if (fromLocation && toLocation) {
+      const key = `${fromLocation} - ${toLocation}`;
+      console.log('Generated Key:', key); 
+
+      const totalPrice = taxiPrices[key] || 0;  
+      this.taxiFormGroup.patchValue({ totalPrice });
+    } else {
+      this.taxiFormGroup.patchValue({ totalPrice: 0 });
+    }
+  }
+
+
+  private fetchTripsData(): void {
+    forkJoin({
+      cars: this.tripService.getCars(),
+      pickupLocations: this.tripService.getPickupLocations(),
+      dropOffLocations: this.tripService.getDropOffLocations(),
+      airlines: this.tripService.getAirlines(),
+      locations: this.tripService.getLocations(),
+      hotels: this.tripService.getHotels(),
+      hotelLocations: this.tripService.getHotelLocations(),
+      taxiLocations: this.tripService.getTaxiLocations()
+    }).subscribe({
+      next: (data) => {
+        this.cars = data.cars;
+        this.pickupLocations = data.pickupLocations;
+        this.dropOffLocations = data.dropOffLocations;
+        this.airlines = data.airlines;
+        this.locations = data.locations;
+        this.hotels = data.hotels;
+        this.hotelLocations = data.hotelLocations;
+        this.taxiLocations = data.taxiLocations;
+      },
+      error: (err) => {
+        console.error('Error fetching data:', err);
+      }
+    });
   }
 
   private initializeExpenses() {
@@ -132,55 +262,55 @@ export class TripComponent {
   }
 
   submitTripData() {
-      const newTrip: ITrip = {
-        id: "",
-        name: this.createTripFormGroup.value.tripName,
-        duration: this.createTripFormGroup.value.tripDuration,
-        startDate: this.createTripFormGroup.value.tripStartDate,
-        endDate: this.createTripFormGroup.value.tripEndDate,
-        userCreatorId: this.userLoggedIn,
-        status: 'PENDING',
-        expenses: [
-          {
-            id: 1,
-            type: 'CAR_RENTAL',
-            details: this.carRentalFormGroup.value
-          },
-          {
-            id: 2,
-            type: 'HOTEL',
-            details: this.hotelFormGroup.value
-          },
-          {
-            id: 3,
-            type: 'FLIGHT',
-            details: this.flightFormGroup.value
-          },
-          {
-            id: 4,
-            type: 'TAXI',
-            details: this.taxiFormGroup.value
-          }
-        ]
-      };
-      
-      this.tripService.addTrip(newTrip).subscribe(
-        (response) => {
-          this.snackBar.open('Trip added successfully!', 'Close', {
-            duration: 3000,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom'
-          });
-          this.stepper.reset();
+    const newTrip: ITrip = {
+      id: "",
+      name: this.createTripFormGroup.value.tripName,
+      duration: this.createTripFormGroup.value.tripDuration,
+      startDate: this.createTripFormGroup.value.tripStartDate,
+      endDate: this.createTripFormGroup.value.tripEndDate,
+      userCreatorId: this.userLoggedIn,
+      status: 'PENDING',
+      expenses: [
+        {
+          id: 1,
+          type: 'CAR_RENTAL',
+          details: this.carRentalFormGroup.value
         },
-        (error) => {
-          this.snackBar.open('Something went wrong while adding trip', 'Close', {
-            duration: 3000,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom'
-          });
+        {
+          id: 2,
+          type: 'HOTEL',
+          details: this.hotelFormGroup.value
+        },
+        {
+          id: 3,
+          type: 'FLIGHT',
+          details: this.flightFormGroup.value
+        },
+        {
+          id: 4,
+          type: 'TAXI',
+          details: this.taxiFormGroup.value
         }
-      );
+      ]
+    };
+
+    this.tripService.addTrip(newTrip).subscribe(
+      (response) => {
+        this.snackBar.open('Trip added successfully!', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom'
+        });
+        this.stepper.reset();
+      },
+      (error) => {
+        this.snackBar.open('Something went wrong while adding trip', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom'
+        });
+      }
+    );
   }
 
   disableAllInputs() {
@@ -197,7 +327,7 @@ export class TripComponent {
         if (result) {
           const updatedTrip: ITrip = {
             ...this.trip,
-            status: 'APPROVED', 
+            status: 'APPROVED',
             approverId: this.userLoggedIn
           };
           this.tripService.updateTripData(updatedTrip).subscribe({
@@ -223,7 +353,7 @@ export class TripComponent {
         if (result) {
           const updatedTrip: ITrip = {
             ...this.trip,
-            status: 'CANCELLED', 
+            status: 'CANCELLED',
             approverId: this.userLoggedIn
           };
           this.tripService.updateTripData(updatedTrip).subscribe({
@@ -257,7 +387,6 @@ export class TripComponent {
     }
   }
 
-
   openNoteDialog(): void {
     this.dialogRef = this.dialog.open(this.noteDialogTemplate, {
       width: '400px',
@@ -275,7 +404,7 @@ export class TripComponent {
 
   leaveTripNote() {
     const updatedTrip = {
-      ...this.trip, 
+      ...this.trip,
       notes: this.noteContent
     };
 
