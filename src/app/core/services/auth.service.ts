@@ -6,59 +6,33 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();
-
-  private users = [
-    { username: 'enduser', password: '123', role: 'EndUser' },
-    { username: 'approver', password: '123', role: 'Approver' },
-    { username: 'finance', password: '123', role: 'Finance' },
-  ];
   private currentUser: any = null;
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   constructor(private router: Router) {}
 
-  // login(username: string, password: string): boolean {
-  //   const user = this.users.find(
-  //     u => u.username === username && u.password === password
-  //   );
-  //   if (user) {
-  //     this.currentUser = user;
-  //     localStorage.setItem('currentUser', JSON.stringify(user));
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // login(userName: string, pass?: string): void {
-  //   localStorage.setItem('userName', userName);
-  //   localStorage.setItem('userRole', userData.userRole);
-  //   this.isLoggedInSubject.next(true);
-  // }
-
-  login(userData: { userName: string; userRole: string; token: string }): void {
-    localStorage.setItem('userName', userData.userName);
-    localStorage.setItem('userRole', userData.userRole);
-    localStorage.setItem('token', userData.token);
+  login(userData: any): void {
+    localStorage.setItem('userData', JSON.stringify(userData));
+    this.currentUser = userData;
     this.isLoggedInSubject.next(true);
   }
 
   logout(): void {
-    localStorage.removeItem('userName');
+    localStorage.removeItem('userData');
     this.isLoggedInSubject.next(false);
   }
 
   getLoggedInUserName(): string {
-    return localStorage.getItem('userName') || '';
+
+    const userData = localStorage.getItem('userData');
+    const user = userData ? JSON.parse(userData) : null;
+    return user ? user.username : '';
   }
 
-  // logout() {
-  //   this.currentUser = null;
-  //   localStorage.removeItem('currentUser');
-  //   this.router.navigate(['/login']);
-  // }
 
   getCurrentUser() {
-    return this.currentUser || JSON.parse(localStorage.getItem('currentUser')!);
+    const userData = localStorage.getItem('userData');
+    return this.currentUser || JSON.parse(userData!);
   }
 
   isAuthenticated(): boolean {

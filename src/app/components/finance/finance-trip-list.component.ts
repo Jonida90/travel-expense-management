@@ -36,25 +36,35 @@ export class FinanceTripListComponent implements OnInit {
   }
 
   markTripAsRefunded(trip: ITrip): void {
+    this.openConfirmationDialog(trip, 'Are you sure you want to mark this trip as <strong>Refunded</strong>?')
+      .subscribe((result) => {
+        if (result) {
+          trip.status = 'REFUNDED';
+        }
+      });
+  }
+  
+  markAsInProcess(trip: ITrip): void {
+    this.openConfirmationDialog(trip, 'Are you sure you want to mark this trip as <strong>In Process</strong>?')
+      .subscribe((result) => {
+        if (result) {
+          trip.status = 'IN_PROCESS';
+        }
+      });
+  }
+  
+  openConfirmationDialog(trip: ITrip, confirmationMessage: string) {
     this.dialogRef = this.dialog.open(this.confirmDialogTemplate, {
       width: '300px',
-      data: trip,
+      data: { trip, message: confirmationMessage },
     });
-
-    this.dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        //do the changes
-      }
-    });
+  
+    return this.dialogRef.afterClosed();
   }
-
+  
   closeDialog(result: boolean): void {
     if (this.dialogRef) {
       this.dialogRef.close(result);
     }
-  }
-
-  markAsInProcess(trip: ITrip): void {
-    trip.status = 'IN_PROCESS';
   }
 }

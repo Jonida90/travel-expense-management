@@ -47,11 +47,11 @@
 </table>
 
 
-<ng-template #confirmDialogTemplate let-dialog>
+<ng-template #confirmDialogTemplate let-data>
   <div class="dialog-container">
     <h2 mat-dialog-title class="dialog-title">Confirmation</h2>
     <mat-dialog-content class="dialog-content">
-      <p>Are you sure you want to mark this trip as <strong>Refunded</strong>?</p>
+      <p [innerHTML]="data?.message"></p>
     </mat-dialog-content>
     <mat-dialog-actions align="end" class="dialog-actions">
       <button mat-button class="dialog-btn" (click)="closeDialog(false)">Cancel</button>

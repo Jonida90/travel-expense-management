@@ -7,11 +7,11 @@ import { AuthService } from './core/services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public isLoggedIn: boolean = true;
+  public isLoggedIn: boolean = false;
 
   constructor(private authService: AuthService) {
-    // this.authService.isLoggedIn$.subscribe((status) => {
-    //   this.isLoggedIn = status;
-    // });
+    this.authService.isLoggedIn$.subscribe((status) => {
+      this.isLoggedIn = status;
+    });
   }
 }

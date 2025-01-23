@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -9,15 +10,14 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class HeaderComponent implements OnInit {
   userName: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // Fetch logged-in user details
-    this.userName = "jonidaaaaaaaaaaaaaaa";
-    //this.authService.getLoggedInUserName(); // Ensure `getLoggedInUserName()` exists
+    this.userName = this.authService.getLoggedInUserName(); 
   }
 
   logout(): void {
     this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

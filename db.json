@@ -2,17 +2,20 @@
   "users": [
     {
       "id": 1,
-      "name": "John Doe",
+      "username": "enduser",
+      "password": "u1234",
       "role": "END_USER"
     },
     {
       "id": 2,
-      "name": "Jane Smith",
+      "username": "userapprover",
+      "password": "u1234",
       "role": "APPROVER"
     },
     {
       "id": 3,
-      "name": "Mark Johnson",
+      "username": "userfinance",
+      "password": "u1234",
       "role": "FINANCE"
     }
   ],
